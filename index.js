@@ -4,8 +4,19 @@ const app = express();
 const mongoose = require('mongoose');
 const {router}=require('./routes');
 
-mongoose.connect('mongodb://localhost:27017/artical' ,{useNewUrlParser: true})
+// mongoose.connect('mongodb://localhost:27017/artical' ,{useNewUrlParser: true})
 app.use(express.json());
+// const url='mongodb+srv://nadatayel:1@cluster0.ojtkl.mongodb.net/article?';
+
+   const url ='mongodb+srv://test:1234@cluster0.ojtkl.mongodb.net/blog?';
+mongoose
+  .connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
+  .then(() => console.log('Database Connected Successfully'))
+  .catch((err) => console.log(err));
 
 const {port = 3000 } = process.env;
 app.use('/',router);

@@ -6,23 +6,32 @@ const asyncSign = promisify (jwt.sign);
 const user = require ('../models/user');
 const create =(User)=>user.create(User);
 
-const login =async ({ username , password  })=>{
-    const User = await user.findOne({ username }).exec();
 
+const login= async ({ username, password })=> {
+    const User= await user.findOne({username}).exec();
     if(!User){
-        throw Error("un_authenticated ");
+        throw Error('UN_AUTHENTICATED');
     }
-    const isVaildPass=user.validatePassword(password);
 
-    console.log(isVaildPass)
-    if(!isVaildPass){
-        throw Error ('un_authenticated');
+    const isValidPass= User.validatePassword(password);
+    if(isValidPass){
+        console.log( isValidPass);
+        throw Error('UN_AUTHENTICATED2');
     }
-    const token= await asyncSign({
-        username: User.username,
-        id: User.id     }, 'secret_must_be_complex');
-        return { ...User.toJSON(), token};
-};
+
+    const token= await asyncSign(
+        { 
+            username: User.username,
+            id: User.id,
+        },
+        'SECRET_MUST_BE_COMPLEX',
+        { expiresIn: '1d' }
+    );
+
+    return { ...user.toJSON(), token};
+
+}
+
 
 const getAll=()=> user.find({}).exec();
 const editOne =(id , data)=> user.findByIdAndUpdate(id, data , { new : true}  ).exec();
