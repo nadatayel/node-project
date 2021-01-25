@@ -18,7 +18,7 @@ mongoose
   .then(() => console.log('Database Connected Successfully'))
   .catch((err) => console.log(err));
 
-const {port = 3000 } = process.env;
+const {PORT = 3000 } = process.env;
 app.use('/',router);
 
 app.get('*',(req,res,next)=>{
@@ -46,7 +46,7 @@ app.get((err , req , res , next)=>{
 })
 
 
-app.listen(port , function(){
-    console.log(`Connected ${port} `);
+app.listen(PORT , function(){
+    console.log(`Connected ${PORT} `);
 })
 
