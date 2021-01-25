@@ -17,7 +17,7 @@ route.get('/' , async(req,res,next)=> {
     }
 
 });
-route.use(auth);
+// route.use(auth);
 route.get('/:id', async(req, res, next)=>{
     const{ params : {id}}=req;
     try{
